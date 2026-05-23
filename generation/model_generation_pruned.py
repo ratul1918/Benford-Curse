@@ -4,12 +4,16 @@ from uilts import read_arthmetics, write_result
 from get_neuron import masktop1neuron
 from types import MethodType
 import argparse
+
+parser = argparse.ArgumentParser()
 parser.add_argument("--model_name", type=str, required=True, help="model")
 parser.add_argument("--task", type=str, required=True, help="task")
 parser.add_argument("--output_path", type=str, required=True, help="output_path")
+args = parser.parse_args()
+
 model_name = args.model_name
 task = args.task
-output_path=args.output_path
+output_path = args.output_path
 model_path=f"~/llm/{model_name}"
 tokenizer = AutoTokenizer.from_pretrained(model_path)
 model = AutoModelForCausalLM.from_pretrained(model_path, torch_dtype=torch.bfloat16, device_map="cuda:0",

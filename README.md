@@ -45,7 +45,7 @@ A compressed version of the biased neurons is provided for convenience. Users ar
 The generation code for both the original and the pruned models is provided in the `generation/` directory.
 
 ## Check
-To check the result of the generation content, please use the code at `Check\`. We suggest using an LLMs to extract the answer first.
+To check the result of the generation content, please use the code in the `Check/` directory. We suggest using an LLM to extract the answer first.
 
 ## Probing 
 We provide the original code for extracting digit selectivity of individual neurons in this directory. A complete version of the probing code will be released upon publication.
@@ -53,13 +53,53 @@ We provide the original code for extracting digit selectivity of individual neur
 
 ## Running the Model
 
+### Prerequisites
 
-Before running the code, please download the LLMs. You can get access to all the models in this paper at https://huggingface.co/.
+1. Ensure all dependencies are installed:
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-To run the model for a specified task, use the following command:
+2. Download the required LLMs from HuggingFace. You can access models mentioned in the paper at https://huggingface.co/. Update the model path in the scripts or set the `--model_name` argument accordingly.
+
+3. Ensure the dataset files are available in the `Datasets/` directory.
+
+4. Extract the Neuron_bias archive if you plan to use the pruned model version:
+   ```bash
+   cd Neuron_bias
+   unzip Neuron_bias.zip
+   cd ..
+   ```
+
+### Running Generation Scripts
+
+#### Using the Original Model
+
+To run the generation script with the original (unpruned) model:
 
 ```bash
-python model_generation_pruned.py --model_name llama27b --task evaluate --output_path "~/your_path"
+cd generation
+python model_generation_original.py --model_name llama27b --task sequence_next_term --output_path "./results"
+```
+
+#### Using the Pruned Model
+
+To run the generation script with the pruned model:
+
+```bash
+cd generation
+python model_generation_pruned.py --model_name llama27b --task sequence_next_term --output_path "./results"
+```
+
+Replace `sequence_next_term` with the appropriate task name from the `Datasets/` directory.
+
+### Checking Results
+
+To check the results of generation, use the scripts in the `Check/` directory:
+
+```bash
+cd Check
+python check.py
 ```
 
 
