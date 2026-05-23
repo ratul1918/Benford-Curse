@@ -3,13 +3,16 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 from uilts import read_arthmetics, write_result
 import argparse
 
+parser = argparse.ArgumentParser()
 parser.add_argument("--model_name", type=str, required=True, help="model")
 parser.add_argument("--task", type=str, required=True, help="task")
 parser.add_argument("--output_path", type=str, required=True, help="output_path")
+args = parser.parse_args()
+
 model_name = args.model_name
 task = args.task
-output_path=args.output_path
-model_path=f"~/llm/{model_name}"
+output_path = args.output_path
+model_path = f"~/llm/{model_name}"
 tokenizer = AutoTokenizer.from_pretrained(model_path)
 model = AutoModelForCausalLM.from_pretrained(model_path, torch_dtype=torch.bfloat16, device_map="cuda:2",
                                              attn_implementation="eager")
@@ -17,7 +20,6 @@ model.eval()
 
 questions, answers = read_arthmetics(
     f"~/Datasets/{task}.txt")
-output_path = "~/Your_path"
 for frame in range(len(questions)):
     prompt = questions[frame]
     answer = answers[frame]
