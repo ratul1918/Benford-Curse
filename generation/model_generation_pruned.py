@@ -14,7 +14,7 @@ args = parser.parse_args()
 model_name = args.model_name
 task = args.task
 output_path = args.output_path
-model_path=f"~/llm/{model_name}"
+model_path = f"~/llm/{model_name}"
 tokenizer = AutoTokenizer.from_pretrained(model_path)
 model = AutoModelForCausalLM.from_pretrained(model_path, torch_dtype=torch.bfloat16, device_map="cuda:0",
                                              attn_implementation="eager")
